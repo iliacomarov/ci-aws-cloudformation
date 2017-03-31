@@ -1,0 +1,10 @@
+[
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "test2"
+  }, 
+  {
+    "ParameterKey": "AMI",
+    "ParameterValue": "test2"
+  }
+]
