@@ -31,4 +31,5 @@ script:
   - echo "[default]" > ~/.aws/credentials
   - echo "aws_access_key_id = $AWS_KEY" >> ~/.aws/credentials
   - echo "aws_secret_access_key = $AWS_SECRET" >> ~/.aws/credentials
+  - /bin/bash ./vars.sh
   - aws cloudformation create-stack --stack-name Docksal-CI-Builder --template-body file://template.json --parameters file://parameters.json
