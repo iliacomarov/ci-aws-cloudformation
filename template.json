@@ -79,14 +79,6 @@
             }
         },
 
-         "EIP1": {
-            "Type" : "AWS::EC2::EIP",
-            "Properties" : {
-               "InstanceId" : "",
-               "Domain" : ""
-            }
-         },
-
         "DocksalCIServer" : {
             "Type" : "AWS::AutoScaling::LaunchConfiguration",
             "Properties" : {
