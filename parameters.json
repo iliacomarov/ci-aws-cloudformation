@@ -1,10 +1,6 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "test2"
+    "ParameterValue": "{{env \"KeyName\"}}"
   }, 
-  {
-    "ParameterKey": "AMI",
-    "ParameterValue": "test3"
-  }
 ]
