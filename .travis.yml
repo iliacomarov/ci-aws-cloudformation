@@ -11,4 +11,4 @@ install:
 
 script:
   - ./vars.sh
-  - ./stack.sh
+  - aws cloudformation create-stack --stack-name Docksal-CI-Builder --template-body file://template.json --parameters file://parameters.json
