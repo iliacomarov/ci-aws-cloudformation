@@ -8,7 +8,14 @@ install:
   - sudo apt-get install -y git python-pip curl
   - sudo pip install awscli
   - sudo pip install cloudformation
+  - mkdir ~/.aws
+  - touch ~/.aws/config && touch ~/.aws/credentials
 
 script:
   - ./vars.sh
+  - echo "[default]" ~/.aws/config
+  - echo 'region=$AWS_REGION' ~/.aws/config
+  - echo "[default]" ~/.aws/credentials
+  - echo 'aws_access_key_id = $AWS_KEY' ~/.aws/credentials
+  - echo 'aws_secret_access_key = $AWS_SECRET' ~/.aws/credentials
   - aws cloudformation create-stack --stack-name Docksal-CI-Builder --template-body file://template.json --parameters file://parameters.json
