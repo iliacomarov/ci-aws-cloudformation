@@ -8,5 +8,7 @@ install:
   - sudo apt-get install -y git python-pip curl
   - sudo pip install awscli
   - sudo pip install cloudformation
-  - export KeyName=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.KeyName')
-  - echo $KeyName
+
+script:
+  - ./vars.sh
+  - ./stack.sh
