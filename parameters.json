@@ -3,4 +3,52 @@
     "ParameterKey": "KeyName",
     "ParameterValue": "{{env \"KeyName\"}}"
   }, 
+    {
+    "ParameterKey": "AMI",
+    "ParameterValue": "{{env \"AMI\"}}"
+  },
+  {
+    "ParameterKey": "SBIP",
+    "ParameterValue": "{{env \"SB_IP\"}}"
+  },
+    {
+    "ParameterKey": "INSTANCETYPE",
+    "ParameterValue": "t2.micro"
+  },
+    {
+    "ParameterKey": "EBSVOLUMESIZE",
+    "ParameterValue": "8"
+  },
+  {
+    "ParameterKey": "DOCKERHUBAUTH",
+    "ParameterValue": "{{env \"DOCKER_HUB_AUTH\"}}"
+  },
+  {
+    "ParameterKey": "DOCKERHUBEMAIL",
+    "ParameterValue": "{{env \"DOCKER_HUB_EMAIL\"}}"
+  },
+  {
+    "ParameterKey": "AWSKEY",
+    "ParameterValue": "{{env \"AWS_KEY\"}}"
+  },
+  {
+    "ParameterKey": "AWSSECRET",
+    "ParameterValue": "{{env \"AWS_SECRET\"}}"
+  },
+  {
+    "ParameterKey": "PROJECTINACTIVITYTIMEOUT",
+    "ParameterValue": "{{env \"PROJECT_INACTIVITY_TIMEOUT\"}}"
+  },
+  {
+    "ParameterKey": "PROJECTDANGLINTIMEOUT",
+    "ParameterValue": "{{env \"PROJECT_DANGLING_TIMEOUT\"}}"
+  },
+  {
+    "ParameterKey": "GITHUBTOKEN",
+    "ParameterValue": "{{env \"GITHUB_TOKEN\"}}"
+  },
+  {
+    "ParameterKey": "DOCKSALCIVERSION",
+    "ParameterValue": "{{env \"DOCKSAL_CI_VERSION\"}}"
+  }
 ]
