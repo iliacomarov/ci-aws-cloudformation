@@ -1,15 +1,15 @@
 [
   {
     "ParameterKey": "KeyName",
-    "ParameterValue": "{{env \"KeyName\"}}"
+    "ParameterValue": "{{$KeyName}}"
   }, 
     {
     "ParameterKey": "AMI",
-    "ParameterValue": "{{env \"AMI\"}}"
+    "ParameterValue": "{{$AMI}}"
   },
   {
     "ParameterKey": "SBIP",
-    "ParameterValue": "{{env \"SB_IP\"}}"
+    "ParameterValue": "{{$SB_IP}}"
   },
     {
     "ParameterKey": "INSTANCETYPE",
