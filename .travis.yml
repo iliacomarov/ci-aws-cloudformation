@@ -9,13 +9,25 @@ install:
   - sudo pip install cloudformation
   - mkdir ~/.aws
   - touch ~/.aws/config && touch ~/.aws/credentials
+  - export AWS_REGION="us-west-2"
+  - export AMI=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.AMI')
+  - export KeyName=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.KeyName')
+  - export EBSVOLUMESIZE=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.EBSVOLUMESIZE')
+  - export SB_IP=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.SBIP')
+  - export DOCKER_HUB_AUTH=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.DOCKERHUBAUTH')
+  - export DOCKER_HUB_EMAIL=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.DOCKERHUBEMAIL')
+  - export AWS_KEY=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.AWSKEY')
+  - export AWS_SECRET=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.AWSSECRET')
+  - export PROJECT_INACTIVITY_TIMEOUT=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.PROJECTINACTIVITYTIMEOUT')
+  - export PROJECT_DANGLING_TIMEOUT=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.PROJECTDANGLINGTIMEOUT')
+  - export GITHUB_TOKEN=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.GITHUBTOKEN')
+  - export DOCKSAL_CI_VERSION=$(curl -H "X-Vault-Token:$VAULT_TOKEN" "$VAULT_ADDR/v1/secret/cloudformation" | jq -r '.data' | jq -r '.DOCKSALCIVERSION')
 
 script:
-  - ./vars.sh
-  - echo "[default]" ~/.aws/config
-  - echo 'region=$AWS_REGION' ~/.aws/config
+  - echo "[default]" > ~/.aws/config
+  - echo 'region=$AWS_REGION' >> ~/.aws/config
   - echo ~/.aws/config
-  - echo "[default]" ~/.aws/credentials
-  - echo 'aws_access_key_id = $AWS_KEY' ~/.aws/credentials
-  - echo 'aws_secret_access_key = $AWS_SECRET' ~/.aws/credentials
+  - echo "[default]" > ~/.aws/credentials
+  - echo 'aws_access_key_id = $AWS_KEY' >> ~/.aws/credentials
+  - echo 'aws_secret_access_key = $AWS_SECRET' >> ~/.aws/credentials
   - aws cloudformation create-stack --stack-name Docksal-CI-Builder --template-body file://template.json --parameters file://parameters.json
