@@ -15,7 +15,7 @@ cat <<EOF > ./parameters.json
   },
   {
     "ParameterKey": "SBIP",
-    "ParameterValue": {$SB_IP"
+    "ParameterValue": "$SB_IP"
   },
     {
     "ParameterKey": "INSTANCETYPE",
