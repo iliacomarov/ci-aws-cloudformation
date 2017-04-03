@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "Installing fin and Docksal dependencies..."
-sudo curl -sSL https://raw.githubusercontent.com/docksal/docksal/${DOCKSAL_VERSION}/bin/fin -o /usr/local/bin/fin
+sudo curl -sSL https://raw.githubusercontent.com/docksal/docksal/master/bin/fin -o /usr/local/bin/fin
 sudo chmod +x /usr/local/bin/fin
 fin version
 fin update
