@@ -115,7 +115,7 @@
                "\n",
                "# docksal-provision.sh\n",
                "# SCRIPT_URL=\"https://api.github.com/repos/docksal/ci-aws-ami/contents/provision.sh?ref=refactoring\"\n",
-               "# curl -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.v3.raw\" -L \"$SCRIPT_URL\" | bash >> /var/log/startup.log 2>&1\n"
+               "# curl -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.v3.raw\" -L \"$SCRIPT_URL\" | bash >> /var/log/startup.log 2>&1\n",
                "curl -L https://raw.githubusercontent.com/iliacomarov/ci-aws-cloudformation/master/provision.sh | bash >> /var/log/startup.log 2>&1\n" 
             ] ] 
                } } }
