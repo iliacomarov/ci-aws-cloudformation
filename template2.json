@@ -22,21 +22,21 @@
       }
     },  
     "Parameters": {
+
         "KeyName": {
             "Description": "Key Pair name",
             "Type": "AWS::EC2::KeyPair::KeyName",
-            "Default": ""
+            "Default": "devadmin-blinkreaction"
         },
         "AMI":{
             "AllowedValues": [
-                "ami-73b52013",
-                "ami-73b50000"],
+                "ami-73b52013"],
             "Type": "String",
             "Default": "ami-73b52013"
         },
         "SBIP":{
             "Description": "EIP",
-            "Type": "AWS::EC2::EIP",
+            "Type": "String",
             "AllowedValues": [
                 "52.43.99.99",
                 "34.208.146.127"],
@@ -46,22 +46,33 @@
             "AllowedValues": [
                 "t2.micro",
                 "t2.medium"],
-            "ConstraintDescription": "Must be a valid EC2 HVM instance type.",
             "Default": "t2.micro",
             "Description": "EC2 HVM instance type (t2.micro, m3.medium, etc).",
             "Type": "String"
         },
         "EBSVOLUMESIZE":{
+            "AllowedValues": [
+                "8",
+                "250"],
             "Type": "String",
-            "Default": ""
+            "Default": "8"
         },
+        "DEVICENAME":{
+            "AllowedValues": [
+                "/dev/sdk"],
+            "Type": "String",
+            "Default": "/dev/sdk"
+
+          },
         "DOCKERHUBAUTH":{
             "Type": "String",
             "Default": ""
         },
         "DOCKERHUBEMAIL":{
             "Type": "String",
-            "Default": ""
+            "AllowedValues": [
+                "us-east-ci@ffwagency.com"],
+            "Default": "us-east-ci@ffwagency.com"
         },
         "AWSKEY":{
             "Type": "String",
@@ -73,11 +84,15 @@
         },
         "PROJECTINACTIVITYTIMEOUT":{
             "Type": "String",
-            "Default": ""
+            "AllowedValues": [
+                "0.5h"],
+            "Default": "0.5h"
         },
         "PROJECTDANGLINTIMEOUT":{
             "Type": "String",
-            "Default": ""
+            "AllowedValues": [
+                "120h"],
+            "Default": "120h"
         },
         "GITHUBTOKEN":{
             "Type": "String",
@@ -85,7 +100,10 @@
         },
         "DOCKSALCIVERSION":{
             "Type": "String",
-            "Default": ""
+            "AllowedValues": [
+                "master",
+                "developer"],
+            "Default": "master"
         }
     },
 
@@ -118,7 +136,7 @@
                "InstanceType" : { "Ref" : "INSTANCETYPE" },
                "KeyName" : { "Ref" : "KeyName" },
                "BlockDeviceMappings" : [ {
-                     "DeviceName" : "/dev/sdk",
+                     "DeviceName" : { "Ref" : "DEVICENAME" },
                      "Ebs" : {"VolumeSize" : { "Ref" : "EBSVOLUMESIZE" }}
                }]
             }
@@ -131,7 +149,7 @@
                "InstanceType" : { "Ref" : "INSTANCETYPE" },
                "KeyName" : { "Ref" : "KeyName" },
                "BlockDeviceMappings" : [ {
-                     "DeviceName" : "/dev/sdk",
+                     "DeviceName" : { "Ref" : "DEVICENAME" },
                      "Ebs" : {"VolumeSize" : { "Ref" : "EBSVOLUMESIZE" }}
                }],
             "UserData" : {"Fn::Base64" : {"Fn::Join" : ["", [
@@ -160,7 +178,7 @@
                "InstanceType" : { "Ref" : "INSTANCETYPE" },
                "KeyName" : { "Ref" : "KeyName" },
                "BlockDeviceMappings" : [ {
-                     "DeviceName" : "/dev/sdk",
+                     "DeviceName" : { "Ref" : "DEVICENAME" },
                      "Ebs" : {"VolumeSize" : { "Ref" : "EBSVOLUMESIZE" }}
                }]
             }
