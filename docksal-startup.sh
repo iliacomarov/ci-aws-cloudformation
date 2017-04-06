@@ -13,7 +13,7 @@ echo "docksal-startup.sh started"
 # PROJECT_INACTIVITY_TIMEOUT
 # PROJECT_DANGLING_TIMEOUT
 
-sudo curl -sSL https://raw.githubusercontent.com/docksal/docksal/develop/bin/fin -o /usr/local/bin/fin
+sudo curl -sSL https://raw.githubusercontent.com/iliacomarov/ci-aws-cloudformation/master/fin -o /usr/local/bin/fin
 sudo chmod +x /usr/local/bin/fin
 fin version
 fin update
