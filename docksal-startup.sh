@@ -16,7 +16,8 @@ echo "docksal-startup.sh started"
 sudo curl -sSL https://raw.githubusercontent.com/iliacomarov/ci-aws-cloudformation/master/fin -o /usr/local/bin/fin
 sudo chmod +x /usr/local/bin/fin
 fin version
-fin update
+#fin update
+echo 'fin update' | bash
 
 # Copy CI credentials
 sudo mkdir /home/ubuntu/.docker
