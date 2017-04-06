@@ -1,0 +1,197 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "AWS Template for Docksal CI Builder",
+    "Mappings": {
+      "AWSInstanceType2Arch": {
+          "t2.medium": {
+                "Arch": "HVM64"
+            },
+          "t2.micro": {
+                "Arch": "HVM64"
+            }
+      },
+      "AWSRegionArch2AMI": {
+            "ap-northeast-1": {
+                "HVM64": "ami-35237952",
+                "HVMG2": "NOT_SUPPORTED"
+            },
+            "ap-northeast-2": {
+                "HVM64": "ami-795b8817",
+                "HVMG2": "NOT_SUPPORTED"
+            }
+      }
+    },  
+    "Parameters": {
+        "KeyName": {
+            "Description": "Key Pair name",
+            "Type": "AWS::EC2::KeyPair::KeyName",
+            "Default": ""
+        },
+        "AMI":{
+            "AllowedValues": [
+                "ami-73b52013",
+                "ami-73b50000"],
+            "Type": "String",
+            "Default": "ami-73b52013"
+        },
+        "SBIP":{
+            "Description": "EIP",
+            "Type": "AWS::EC2::EIP",
+            "AllowedValues": [
+                "52.43.99.99",
+                "34.208.146.127"],
+            "Default": "34.208.146.127"
+        },
+        "INSTANCETYPE":{
+            "AllowedValues": [
+                "t2.micro",
+                "t2.medium"],
+            "ConstraintDescription": "Must be a valid EC2 HVM instance type.",
+            "Default": "t2.micro",
+            "Description": "EC2 HVM instance type (t2.micro, m3.medium, etc).",
+            "Type": "String"
+        },
+        "EBSVOLUMESIZE":{
+            "Type": "String",
+            "Default": ""
+        },
+        "DOCKERHUBAUTH":{
+            "Type": "String",
+            "Default": ""
+        },
+        "DOCKERHUBEMAIL":{
+            "Type": "String",
+            "Default": ""
+        },
+        "AWSKEY":{
+            "Type": "String",
+            "Default": ""
+        },
+        "AWSSECRET":{
+            "Type": "String",
+            "Default": ""
+        },
+        "PROJECTINACTIVITYTIMEOUT":{
+            "Type": "String",
+            "Default": ""
+        },
+        "PROJECTDANGLINTIMEOUT":{
+            "Type": "String",
+            "Default": ""
+        },
+        "GITHUBTOKEN":{
+            "Type": "String",
+            "Default": ""
+        },
+        "DOCKSALCIVERSION":{
+            "Type": "String",
+            "Default": ""
+        }
+    },
+
+    "Resources": {
+
+        "VPC": {
+            "Type": "AWS::EC2::VPC",
+           "Properties": {
+                "CidrBlock": "172.31.0.0/16",
+                "EnableDnsHostnames": "true"
+            }
+        },
+        "InternetGateway": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+            }
+        },
+        "VPCGatewayAttachment": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": {"Ref": "VPC"},
+                "InternetGatewayId": {"Ref": "InternetGateway"}
+            }
+        },
+
+        "DocksalCIServer" : {
+            "Type" : "AWS::AutoScaling::LaunchConfiguration",
+            "Properties" : {
+               "ImageId" : { "Ref" : "AMI" },
+               "InstanceType" : { "Ref" : "INSTANCETYPE" },
+               "KeyName" : { "Ref" : "KeyName" },
+               "BlockDeviceMappings" : [ {
+                     "DeviceName" : "/dev/sdk",
+                     "Ebs" : {"VolumeSize" : { "Ref" : "EBSVOLUMESIZE" }}
+               }]
+            }
+         },
+          "ECSAgent1" : {
+            "Type" : "AWS::AutoScaling::LaunchConfiguration",
+            "Properties" : {
+               "ImageId" : { "Ref" : "AMI" },
+               "SecurityGroups" : ["Docksal CI Builder"],
+               "InstanceType" : { "Ref" : "INSTANCETYPE" },
+               "KeyName" : { "Ref" : "KeyName" },
+               "BlockDeviceMappings" : [ {
+                     "DeviceName" : "/dev/sdk",
+                     "Ebs" : {"VolumeSize" : { "Ref" : "EBSVOLUMESIZE" }}
+               }],
+            "UserData" : {"Fn::Base64" : {"Fn::Join" : ["", [
+               "#!/usr/bin/env bash\n",
+               "export DOCKER_HUB_AUTH=",{"Ref": "DOCKERHUBAUTH"},"\n",
+               "export DOCKER_HUB_EMAIL=",{"Ref": "DOCKERHUBEMAIL"},"\n",
+               "export AWS_KEY=",{"Ref": "AWSKEY"},"\n",
+               "export AWS_SECRET=",{"Ref": "AWSSECRET"},"\n",
+               "export PROJECT_INACTIVITY_TIMEOUT=",{"Ref": "PROJECTINACTIVITYTIMEOUT"},"\n",
+               "export PROJECT_DANGLING_TIMEOUT=",{"Ref": "PROJECTDANGLINTIMEOUT"},"\n",
+               "export GITHUB_TOKEN=",{"Ref": "GITHUBTOKEN"},"\n",
+               "export DOCKSAL_CI_VERSION=",{"Ref": "DOCKSALCIVERSION"},"\n",
+               "\n",
+               "# docksal-provision.sh\n",
+               "# SCRIPT_URL=\"https://api.github.com/repos/docksal/ci-aws-ami/contents/provision.sh?ref=refactoring\"\n",
+               "# curl -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.v3.raw\" -L \"$SCRIPT_URL\" | bash >> /var/log/startup.log 2>&1\n",
+               "curl -L https://raw.githubusercontent.com/iliacomarov/ci-aws-cloudformation/master/provision.sh | bash >> /var/log/startup.log 2>&1\n" 
+            ] ] 
+               } } }
+          },
+         "ECSAgent2" : {
+            "Type" : "AWS::AutoScaling::LaunchConfiguration",
+            "Properties" : {
+               "ImageId" : { "Ref" : "AMI" },
+               "SecurityGroups" : ["Docksal CI Builder"],
+               "InstanceType" : { "Ref" : "INSTANCETYPE" },
+               "KeyName" : { "Ref" : "KeyName" },
+               "BlockDeviceMappings" : [ {
+                     "DeviceName" : "/dev/sdk",
+                     "Ebs" : {"VolumeSize" : { "Ref" : "EBSVOLUMESIZE" }}
+               }]
+            }
+         },
+         "DocsalServerGroup" : {
+            "Type" : "AWS::AutoScaling::AutoScalingGroup",
+            "Properties" : {
+               "AvailabilityZones" : { "Fn::GetAZs" : ""},
+               "LaunchConfigurationName" : { "Ref" : "DocksalCIServer" },
+               "MinSize" : "0",
+               "MaxSize" : "0"
+            }
+         },
+         "ECSAgent1Group" : {
+            "Type" : "AWS::AutoScaling::AutoScalingGroup",
+            "Properties" : {
+               "AvailabilityZones" : { "Fn::GetAZs" : ""},
+               "LaunchConfigurationName" : { "Ref" : "ECSAgent1" },
+               "MinSize" : "1",
+               "MaxSize" : "1"
+            }
+         },
+         "ECSAgent2Group" : {
+            "Type" : "AWS::AutoScaling::AutoScalingGroup",
+            "Properties" : {
+               "AvailabilityZones" : { "Fn::GetAZs" : ""},
+               "LaunchConfigurationName" : { "Ref" : "ECSAgent2" },
+               "MinSize" : "0",
+               "MaxSize" : "0"
+            }
+         }
+
+    }
+ }
