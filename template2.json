@@ -1,26 +1,7 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "AWS Template for Docksal CI Builder",
-    "Mappings": {
-      "AWSInstanceType2Arch": {
-          "t2.medium": {
-                "Arch": "HVM64"
-            },
-          "t2.micro": {
-                "Arch": "HVM64"
-            }
-      },
-      "AWSRegionArch2AMI": {
-            "ap-northeast-1": {
-                "HVM64": "ami-35237952",
-                "HVMG2": "NOT_SUPPORTED"
-            },
-            "ap-northeast-2": {
-                "HVM64": "ami-795b8817",
-                "HVMG2": "NOT_SUPPORTED"
-            }
-      }
-    },  
+  
     "Parameters": {
 
         "KeyName": {
@@ -30,9 +11,9 @@
         },
         "AMI":{
             "AllowedValues": [
-                "ami-73b52013"],
+                "ami-34058f54"],
             "Type": "String",
-            "Default": "ami-73b52013"
+            "Default": "ami-34058f54"
         },
         "SBIP":{
             "Description": "EIP",
@@ -102,7 +83,7 @@
             "Type": "String",
             "AllowedValues": [
                 "master",
-                "developer"],
+                "develop"],
             "Default": "master"
         }
     },
@@ -162,11 +143,11 @@
                "export PROJECT_DANGLING_TIMEOUT=",{"Ref": "PROJECTDANGLINTIMEOUT"},"\n",
                "export GITHUB_TOKEN=",{"Ref": "GITHUBTOKEN"},"\n",
                "export DOCKSAL_CI_VERSION=",{"Ref": "DOCKSALCIVERSION"},"\n",
+               "export SB_IP=",{"Ref": "SBIP"},"\n",
                "\n",
-               "# docksal-provision.sh\n",
                "# SCRIPT_URL=\"https://api.github.com/repos/docksal/ci-aws-ami/contents/provision.sh?ref=refactoring\"\n",
                "# curl -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.v3.raw\" -L \"$SCRIPT_URL\" | bash >> /var/log/startup.log 2>&1\n",
-               "curl -L https://raw.githubusercontent.com/iliacomarov/ci-aws-cloudformation/master/provision.sh | bash >> /var/log/startup.log 2>&1\n" 
+               "curl -L https://raw.githubusercontent.com/iliacomarov/ci-aws-cloudformation/master/docksal-startup.sh | bash >> /var/log/startup.log 2>&1\n" 
             ] ] 
                } } }
           },
