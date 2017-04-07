@@ -13,12 +13,6 @@ echo "docksal-startup.sh started"
 # PROJECT_INACTIVITY_TIMEOUT
 # PROJECT_DANGLING_TIMEOUT
 
-#sudo curl -sSL https://raw.githubusercontent.com/iliacomarov/ci-aws-cloudformation/master/fin -o /usr/local/bin/fin
-#sudo chmod +x /usr/local/bin/fin
-#fin version
-#fin update
-
-
 # Copy CI credentials
 sudo mkdir /home/ubuntu/.docker
 cat <<EOF > /home/ubuntu/.docker/config.json
