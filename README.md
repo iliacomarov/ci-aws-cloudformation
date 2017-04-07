@@ -10,6 +10,6 @@ Setup automation builds on https://travis-ci.org
 
 > VAULT_TOKEN (Display value in build log - Off)
 
-- template.json created for travis-ci and it works with parameters.json which generated from vars.sh
-- template2.json created for manual creation stack through AWS web ui
+- template.json created for travis-ci and it works with parameters.json which generates from vars.sh
+- template2.json created for manual creation stack through AWS web ui (with manual introduction of parameters)
 
