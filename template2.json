@@ -11,7 +11,9 @@
         },
         "AMI":{
             "AllowedValues": [
-                "ami-34058f54"],
+                "ami-34058f54",
+                "ami-73b52013",
+                "ami-a58d0dc5"],
             "Type": "String",
             "Default": "ami-34058f54"
         },
@@ -31,6 +33,13 @@
             "Description": "EC2 HVM instance type (t2.micro, m3.medium, etc).",
             "Type": "String"
         },
+        "DEVICENAME": {
+            "AllowedValues": [
+                "/dev/sdk",
+                "/dev/sdl"],
+            "Type": "String",
+            "Default": "/dev/sdk"
+          },
         "EBSVOLUMESIZE":{
             "AllowedValues": [
                 "8",
@@ -38,22 +47,9 @@
             "Type": "String",
             "Default": "8"
         },
-        "DEVICENAME":{
-            "AllowedValues": [
-                "/dev/sdk"],
-            "Type": "String",
-            "Default": "/dev/sdk"
-
-          },
         "DOCKERHUBAUTH":{
             "Type": "String",
             "Default": ""
-        },
-        "DOCKERHUBEMAIL":{
-            "Type": "String",
-            "AllowedValues": [
-                "us-east-ci@ffwagency.com"],
-            "Default": "us-east-ci@ffwagency.com"
         },
         "AWSKEY":{
             "Type": "String",
@@ -136,7 +132,6 @@
             "UserData" : {"Fn::Base64" : {"Fn::Join" : ["", [
                "#!/usr/bin/env bash\n",
                "export DOCKER_HUB_AUTH=",{"Ref": "DOCKERHUBAUTH"},"\n",
-               "export DOCKER_HUB_EMAIL=",{"Ref": "DOCKERHUBEMAIL"},"\n",
                "export AWS_KEY=",{"Ref": "AWSKEY"},"\n",
                "export AWS_SECRET=",{"Ref": "AWSSECRET"},"\n",
                "export PROJECT_INACTIVITY_TIMEOUT=",{"Ref": "PROJECTINACTIVITYTIMEOUT"},"\n",
