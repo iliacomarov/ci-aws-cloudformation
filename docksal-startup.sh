@@ -19,16 +19,15 @@ cat <<EOF > /home/ubuntu/.docker/config.json
 {
     "auths": {
             "https://index.docker.io/v1/": {
-                    "auth": "$DOCKER_HUB_AUTH",
-                    "email": "$DOCKER_HUB_EMAIL"
+                    "auth": "$DOCKER_HUB_AUTH"
             }
     }
 }
 EOF
 # This has to be done under the ubuntu user to load Docker Hub credentials
-sudo su - ubuntu -c 'docker run --rm -v /home/ubuntu:/data ffwagency/us-east-ci'
+#sudo su - ubuntu -c 'docker run --rm -v /home/ubuntu:/data ffwagency/us-east-ci'
 sudo chown -R ubuntu:ubuntu /home/ubuntu
-#ssh-keygen -t rsa -N "" -f /home/ubuntu/.ssh/id_rsa
+ssh-keygen -t rsa -N "" -f /home/ubuntu/.ssh/id_rsa
 sudo chmod 600 /home/ubuntu/.ssh/id_rsa
 sudo rm -rf /home/ubuntu/.git
 
