@@ -9,6 +9,7 @@ echo "docksal-startup.sh started"
 # DOCKER_HUB_EMAIL
 # AWS_KEY
 # AWS_SECRET
+AWS_REGION="us-west-2"
 # SB_IP
 # PROJECT_INACTIVITY_TIMEOUT
 # PROJECT_DANGLING_TIMEOUT
