@@ -41,7 +41,7 @@ echo "aws_access_key_id = $AWS_KEY" >> /home/ubuntu/.aws/credentials
 echo "aws_secret_access_key = $AWS_SECRET" >> /home/ubuntu/.aws/credentials
 
 # sync bucket "us-east-ci-sandbox-configs" with /home/ubuntu
-aws s3 sync s3://us-east-ci-sandbox-configs /home/ubuntu
+sudo su - ubuntu -c 'aws s3 sync s3://us-east-ci-sandbox-configs /home/ubuntu'
 sudo chown -R ubuntu:ubuntu /home/ubuntu
 sudo chmod 644 /home/ubuntu/.docker/config.json
 sudo chmod 644 /home/ubuntu/.ssh/config
