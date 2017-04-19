@@ -25,11 +25,26 @@ cat <<EOF > /home/ubuntu/.docker/config.json
 }
 EOF
 # This has to be done under the ubuntu user to load Docker Hub credentials
-sudo su - ubuntu -c 'docker run --rm -v /home/ubuntu:/data ffwagency/us-east-ci'
+#sudo su - ubuntu -c 'docker run --rm -v /home/ubuntu:/data ffwagency/us-east-ci'
+# install & setup aws-cli
+sudo apt-get update && sudo apt-get install -y awscli
+mkdir /home/ubuntu/.aws
+touch /home/ubuntu/.aws/config && touch ~/.aws/credentials
+echo "[default]" > /home/ubuntu/.aws/config
+echo "region=$AWS_REGION" >> /home/ubuntu/.aws/config
+echo /home/ubuntu/.aws/config
+echo "[default]" > /home/ubuntu/.aws/credentials
+echo "aws_access_key_id = $AWS_KEY" >> /home/ubuntu/.aws/credentials
+echo "aws_secret_access_key = $AWS_SECRET" >> /home/ubuntu/.aws/credentials
+
+# sync bucket "us-east-ci-sandbox-configs" with /home/ubuntu
+aws s3 sync s3://us-east-ci-sandbox-configs /home/ubuntu
 sudo chown -R ubuntu:ubuntu /home/ubuntu
-#ssh-keygen -t rsa -N "" -f /home/ubuntu/.ssh/id_rsa
+sudo chmod 644 /home/ubuntu/.docker/config.json
+sudo chmod 644 /home/ubuntu/.ssh/config
+sudo chmod 644 /home/ubuntu/.ssh/id_rsa.pub
 sudo chmod 600 /home/ubuntu/.ssh/id_rsa
-sudo rm -rf /home/ubuntu/.git
+#ssh-keygen -t rsa -N "" -f /home/ubuntu/.ssh/id_rsa
 
 # Assign a static IP address
 aws-ec2-assign-elastic-ip --region us-west-2 --access-key "$AWS_KEY" --secret-key "$AWS_SECRET" --valid-ips "$SB_IP"
