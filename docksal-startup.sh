@@ -28,9 +28,11 @@ EOF
 # This has to be done under the ubuntu user to load Docker Hub credentials
 #sudo su - ubuntu -c 'docker run --rm -v /home/ubuntu:/data ffwagency/us-east-ci'
 # install & setup aws-cli
-sudo apt-get update && sudo apt-get install -y awscli
+sudo apt-get install -y python-pip python-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev
+sudo pip install --upgrade pip
+sudo pip install aws
 mkdir /home/ubuntu/.aws
-touch /home/ubuntu/.aws/config && touch ~/.aws/credentials
+touch /home/ubuntu/.aws/config && touch /home/ubuntu/.aws/credentials
 echo "[default]" > /home/ubuntu/.aws/config
 echo "region=$AWS_REGION" >> /home/ubuntu/.aws/config
 echo /home/ubuntu/.aws/config
