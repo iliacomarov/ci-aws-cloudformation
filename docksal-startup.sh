@@ -9,7 +9,7 @@ echo "docksal-startup.sh started"
 # DOCKER_HUB_EMAIL
 # AWS_KEY
 # AWS_SECRET
-AWS_REGION="us-west-2"
+# AWS_REGION="us-west-2"
 # SB_IP
 # PROJECT_INACTIVITY_TIMEOUT
 # PROJECT_DANGLING_TIMEOUT
@@ -50,7 +50,7 @@ sudo chmod 600 /home/ubuntu/.ssh/id_rsa
 #ssh-keygen -t rsa -N "" -f /home/ubuntu/.ssh/id_rsa
 
 # Assign a static IP address
-aws-ec2-assign-elastic-ip --region us-west-2 --access-key "$AWS_KEY" --secret-key "$AWS_SECRET" --valid-ips "$SB_IP"
+aws-ec2-assign-elastic-ip --region "$AWS_REGION" --access-key "$AWS_KEY" --secret-key "$AWS_SECRET" --valid-ips "$SB_IP"
 
 # Reset docksal-ssh-agent
 # This has to be done under the ubuntu user to load the ssh keys
