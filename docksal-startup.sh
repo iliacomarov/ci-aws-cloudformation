@@ -58,7 +58,7 @@ sudo su - ubuntu -c 'fin reset ssh-agent'
 # Reset docksal-vhost-proxy
 fin reset proxy
 
-aws ec2 attach-volume --volume-id $VOLUME_ID --instance $INSTANCE_ID --device /dev/sdh
+sudo su - ubuntu -c 'aws ec2 attach-volume --volume-id $VOLUME_ID --instance $INSTANCE_ID --device /dev/sdh'
 
 sudo mkdir /docksal_data
 sudo mount /dev/xvdh1 /docksal_data
