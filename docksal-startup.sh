@@ -51,6 +51,13 @@ sudo chmod 600 /home/ubuntu/.ssh/id_rsa
 
 # Assign a static IP address
 aws-ec2-assign-elastic-ip --region "$AWS_REGION" --access-key "$AWS_KEY" --secret-key "$AWS_SECRET" --valid-ips "$SB_IP"
+aws ec2 attach-volume --volume-id $VOLUME_ID --instance $INSTANCE_ID --device /dev/sdh
+
+sudo mkdir /docksal_data
+sudo mount /dev/xvdh1 /docksal_data
+sudo rm -r /home/ubuntu/builds
+sudo ln -s /docksal_data/builds /home/ubuntu/builds
+sudo chown ubuntu:ubuntu -R /docksal_data
 
 # Reset docksal-ssh-agent
 # This has to be done under the ubuntu user to load the ssh keys
