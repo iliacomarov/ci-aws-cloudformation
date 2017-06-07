@@ -51,6 +51,8 @@ sudo chmod 600 /home/ubuntu/.ssh/id_rsa
 
 # Assign a static IP address
 aws-ec2-assign-elastic-ip --region "$AWS_REGION" --access-key "$AWS_KEY" --secret-key "$AWS_SECRET" --valid-ips "$SB_IP"
+echo $AWS_REGION
+echo $AWS_KEY
 aws ec2 attach-volume --volume-id $VOLUME_ID --instance $INSTANCE_ID --device /dev/sdh
 
 sudo mkdir /docksal_data
